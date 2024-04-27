@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { KnexModule } from 'nest-knexjs';
 import { ProjectsModule } from './projects/projects.module';
+import { FeaturesModule } from './features/features.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { ProjectsModule } from './projects/projects.module';
       },
     }),
     ProjectsModule,
+    FeaturesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,8 +1,8 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { IsString } from 'class-validator';
-import { CreateProjectDto } from './create-project.dto';
+import { CreateFeatureDto } from './create-feature.dto';
 
-export class UpdateProjectDto extends PartialType(CreateProjectDto) {
+export class UpdateFeatureDto extends PartialType(CreateFeatureDto) {
   @IsString()
   name: string;
 }

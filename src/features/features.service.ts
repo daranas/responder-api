@@ -7,44 +7,44 @@ import {
 } from '@nestjs/common';
 import { Knex } from 'knex';
 import { InjectModel } from 'nest-knexjs';
-import { CreateProjectDto } from './dto/create-project.dto';
-import { UpdateProjectDto } from './dto/update-project.dto';
+import { CreateFeatureDto } from './dto/create-feature.dto';
+import { UpdateFeatureDto } from './dto/update-feature.dto';
 
 @Injectable()
-export class ProjectsService {
+export class FeaturesService {
   constructor(@InjectModel() private readonly knex: Knex) {}
 
   async findAll() {
-    const projects = await this.knex.table('projects').orderBy('id', 'desc');
-    return projects;
+    const features = await this.knex.table('features').orderBy('id', 'desc');
+    return features;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} project`;
-  }
-
-  async findProjectName(name?: string) {
+  async findFeatureName(name?: string) {
     try {
-      const projectName = await this.knex
-        .table('projects')
+      const featureName = await this.knex
+        .table('features')
         .where('name', name)
         .first();
-      return projectName;
+      return featureName;
     } catch (error) {
       throw error || new InternalServerErrorException();
     }
   }
 
-  async create(createProjectDto: CreateProjectDto) {
+  findOne(id: number) {
+    return `This action returns a #${id} feature`;
+  }
+
+  async create(createFeatureDto: CreateFeatureDto) {
     try {
-      const findName = await this.findProjectName(createProjectDto.name);
+      const findName = await this.findFeatureName(CreateFeatureDto.name);
       if (findName) {
         throw new BadRequestException('Project name is already exist');
       }
 
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const projects = await this.knex.table('projects').insert({
-        name: createProjectDto.name,
+      const features = await this.knex.table('features').insert({
+        name: createFeatureDto.name,
       });
 
       return {
@@ -56,22 +56,22 @@ export class ProjectsService {
     }
   }
 
-  async update(id: number, updateProjectDto: UpdateProjectDto) {
+  async update(id: number, updateFeatureDto: UpdateFeatureDto) {
     try {
-      const projects = await this.knex
-        .table('projects')
+      const features = await this.knex
+        .table('features')
         .where('id', id)
         .update({
-          name: updateProjectDto.name,
+          name: updateFeatureDto.name,
         });
 
-      return { projects };
+      return { features };
     } catch (err) {
       throw new HttpException(err, HttpStatus.BAD_REQUEST);
     }
   }
 
   remove(id: number) {
-    return `This action removes a #${id} project`;
+    return `This action removes a #${id} feature`;
   }
 }
